@@ -45,6 +45,15 @@ class ForecastXLSXFileGenerator(AbstractXLSXFileGenerator, ForecastFileGenerator
                 self.horizontal_left_header_format,
             )
             i += 1
+            worksheet.merge_range(
+                i,
+                0,
+                i,
+                6,
+                f"Средняя температура за световой день: {daily_forecast.daylight_avg_temp_view}",
+                self.horizontal_header_format,
+            )
+            i += 1
             worksheet.merge_range(i, 0, i, 2, "")
             worksheet.write(i, 3, "ощущается\nкак", self.horizontal_header_format)
             worksheet.write(
