@@ -1,0 +1,52 @@
+x-common-settings: &common-settings
+  restart: always
+
+services:
+  nginx:
+    <<: *common-settings
+    container_name: nginx
+    platform: linux/arm64
+    image: nginx
+    ports:
+     - 80:80
+    volumes:
+      - ./nginx/hosts.conf:/etc/nginx/conf.d/hosts.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      -  mgfn-weather
+
+  mgfn-weather-db:
+    <<: *common-settings
+    container_name: mgfn-weather-db
+    platform: linux/amd64
+    image: postgres:16.1
+    env_file: mgfn-weather/.env
+    volumes:
+      -  mgfn_weather_db_data:/var/lib/postgresql/data
+    ports:
+      - 55432:5432
+
+
+  mgfn-minio:
+    <<: *common-settings
+    container_name: mgfn-minio
+    platform: linux/arm64
+    image: bitnamilegacy/minio:2024
+    ports:
+      - '9010:9000'
+      - '9011:9001'
+    env_file: minio/.env
+    volumes:
+      - mgfn_minio_data:/data
+
+  mgfn-weather:
+    <<: *common-settings
+    build: mgfn-weather
+    env_file: mgfn-weather/.env
+    depends_on:
+      - mgfn-weather-db
+      - mgfn-minio
+
+volumes:
+  mgfn_weather_db_data:
+  mgfn_minio_data:
