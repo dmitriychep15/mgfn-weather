@@ -59,7 +59,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "pride_device_registry",
 ]
 
 # Same as Black.
