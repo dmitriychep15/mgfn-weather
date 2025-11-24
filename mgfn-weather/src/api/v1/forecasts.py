@@ -38,6 +38,13 @@ async def read_forecast_records(
     response_model=ForecastRecordSchema,
     responses=generate_forecast_responses,
     status_code=status.HTTP_201_CREATED,
+    description="Generate a new weather forecast for given coordinates.\n"
+    "Behavior description:\n"
+    "\n"
+    "| Response format |                       Behavior                        |\n"
+    "|----------------:|:------------------------------------------------------|\n"
+    "|     JSON        | Forecast report generating was failed and saved in DB |\n"
+    "|     File        | Successfull report generation                         |\n",
 )
 async def generate_forecast(
     params: GenerateForecastParams,
@@ -65,6 +72,13 @@ async def delete_forecast_record(
     response_model=ForecastRecordSchema,
     responses=generate_forecast_responses,
     status_code=status.HTTP_201_CREATED,
+    description="Generate a new weather forecast for given city.\n"
+    "Behavior description:\n"
+    "\n"
+    "| Response format |                       Behavior                        |\n"
+    "|----------------:|:------------------------------------------------------|\n"
+    "|     JSON        | Forecast report generating was failed and saved in DB |\n"
+    "|     File        | Successfull report generation                         |\n",
 )
 async def generate_forecast_by_city(
     city: CityEnum,
