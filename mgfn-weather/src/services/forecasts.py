@@ -95,7 +95,7 @@ class ForecastService(BaseService[Forecast]):
             )
             forecast_rec.file_id = file_instance.id
 
-            response = get_file_response(file, filename)
+            response = get_file_response(file, filename, status.HTTP_201_CREATED)
         await self.repo.save()
         return response
 

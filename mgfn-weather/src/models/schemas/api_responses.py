@@ -33,10 +33,13 @@ file_responses = {
 }
 
 
-def get_file_response(file: bytes, file_name: str) -> Response:
+def get_file_response(
+    file: bytes, file_name: str, status_code: int = status.HTTP_200_OK
+) -> Response:
     """Returns API response for file."""
     return Response(
         file,
+        status_code=status_code,
         media_type="application/octet-stream",
         headers={
             "Content-Disposition": f'''attachment; filename="{quote(file_name, encoding="utf-8")}"'''
