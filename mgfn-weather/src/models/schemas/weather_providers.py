@@ -99,7 +99,7 @@ class ForecastData(CustomBaseModel):
         return self.get_temp_view(self.feels_like)
 
 
-class _ForecastDayParts(CustomBaseModel):
+class ForecastDayParts(CustomBaseModel):
     """Forecast for one day, splitted by day parts."""
 
     night: ForecastData = Field(description="Nighttime forecast")
@@ -112,7 +112,7 @@ class DailyForecast(CustomBaseModel):
     """System's suitable weather forecast for one day."""
 
     date: datetime.date
-    parts: _ForecastDayParts
+    parts: ForecastDayParts
 
     @computed_field
     @property

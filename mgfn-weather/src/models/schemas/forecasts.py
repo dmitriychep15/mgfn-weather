@@ -2,13 +2,11 @@
 
 import datetime
 import uuid
-from copy import deepcopy
 from enum import StrEnum
 
 from fastapi import Query
 from pydantic import Field, computed_field
 
-from src.models.schemas.api_responses import file_responses
 from src.models.schemas.common import (
     CustomBaseModel,
     PaginatedListQueryParams,
@@ -84,11 +82,20 @@ class ForecastRecordSchema(CustomBaseModel):
         return ForecastRequestStatusSchema(code=status)
 
 
-generate_forecast_responses = deepcopy(file_responses)
-generate_forecast_responses[200]["content"]["application/json"] = {
-    "schema": ForecastRecordSchema.model_json_schema(
-        ref_template="#/components/schemas/{model}"
-    ),
+generate_forecast_responses = {
+    201: {
+        "description": "Success",
+        "content": {
+            "application/octet-stream": {
+                "schema": {"type": "string", "format": "binary"}
+            },
+            "application/json": {
+                "schema": ForecastRecordSchema.model_json_schema(
+                    ref_template="#/components/schemas/{model}"
+                ),
+            },
+        },
+    },
 }
 
 

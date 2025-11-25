@@ -1,0 +1,55 @@
+services:
+
+  mgfn-weather-test-db:
+    container_name: mgfn-weather-test-db
+    platform: linux/arm64
+    image: postgres:16.1
+    env_file: ../../../.test.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mgfn_user -d mgfn-weather-db"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+    volumes:
+      -  mgfn_weather_test_db_data:/var/lib/postgresql/data
+    networks:
+      - testnet
+
+  mgfn-test-minio:
+    container_name: mgfn-test-minio
+    platform: linux/arm64
+    image: bitnamilegacy/minio:2024
+    environment:
+      - MINIO_ROOT_USER=mgfn_user
+      - MINIO_ROOT_PASSWORD=ge8oLd2d3H
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+    volumes:
+      - mgfn_test_minio_data:/data
+    networks:
+      - testnet
+
+  mgfn-weather:
+    platform: linux/arm64
+    build:
+      context: ../../../
+      dockerfile: ./src/tests/infra/Dockerfile
+    env_file: ../../../.test.env
+    depends_on:
+      mgfn-weather-test-db:
+        condition: service_healthy
+      mgfn-test-minio:
+        condition: service_healthy
+    networks:
+      - testnet
+
+networks:
+  testnet:
+    driver: bridge
+
+volumes:
+  mgfn_weather_test_db_data:
+  mgfn_test_minio_data:
