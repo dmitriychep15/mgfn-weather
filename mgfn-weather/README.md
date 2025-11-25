@@ -9,7 +9,7 @@ Service, that is responsible for the weather info processing.
      - Behind nginx: `0.0.0.0/api/weather/swagger`
 
 ## Common steps:
-1. Add `.env` file to root (see [env variables sample](.env_sample)):
+1. Add `.env` file to root (see [env variables sample](.env.sample)):
 
 | Env Variable                               | Default Value      | Required | Description                                                    |
 |--------------------------------------------|--------------------|----------|----------------------------------------------------------------|
