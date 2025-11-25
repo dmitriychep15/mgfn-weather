@@ -44,6 +44,9 @@ Service, that is responsible for the weather info processing.
 1. Add webhook config to git `git add .pre-commit-config.yaml`
 2. Initialize pre-commit `pre-commit install`
 
+### Running tests
+To run tests follow [instructions](src/tests/infra/README.md)
+
 After that code formatter will be run before every commit and if code changes don't match with code style it will reformat code automatically. After that you should `add` and `commit` changes again. **To prevent this** "double committing" just run `ruff --fix .` before every commit by yourselves.
 
 

@@ -15,7 +15,7 @@ from src.db.file_storages.repositories import (
 from src.db.storages.postgres import async_session
 
 
-async def get_db() -> t.AsyncGenerator[AsyncSession, t.Any]:
+async def get_db() -> t.AsyncGenerator[AsyncSession, None]:
     """Returns DB storage connection."""
     async with async_session() as session:
         yield session
